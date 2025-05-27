@@ -7,6 +7,7 @@ class Account:
         self.account_number = account_number
         self.loan = 0
         self.loan_status = "inactive"
+        self.is_frozen = False
 
     def deposit(self, amount):
         if amount > 0:
@@ -69,4 +70,30 @@ class Account:
         new_balance = self.balance + interest
         return f"interest rate is {interest} and your new balance is {new_balance}"
 
-    def 
+    def freez_account():
+        if not is_frozen:
+            self.is_frozen = True
+            return "account have been frozen"
+        else:
+            return "account already frozen"
+
+    def unfreez_account():
+        if self.is_frozen:
+            self.is_frozen = False
+            print(f"account {self.account_number} has been frozen")
+        else:
+            print(f"account {self.account_number} is not frozen") 
+
+    def account_statement(self):
+        print("Account Statement:")
+        for i, deposit in enumerate(self.deposits):
+            print(f"Deposit {i+1}: {deposit}")
+        for i, withdrawal in enumerate(self.withdrawals):
+            print(f"Withdrawal {i+1}: {withdrawal}")
+
+    def set_minmum_balance(self, amount):
+        
+
+          
+
+        
