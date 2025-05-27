@@ -9,6 +9,7 @@ class Account:
         self.loan_status = "inactive"
         self.is_frozen = False
         self.minimum_balance = 0
+        self.close = False
 
     def deposit(self, amount):
         if amount > 0:
@@ -99,8 +100,14 @@ class Account:
             return "balance cannot be negative"    
             
 
-     def clear_account(self):
-        
+    def close_account (self):
+        self.deposits.clear()
+        self.withdrawals.clear()
+        # self.transactions.clear()
+        self.loan_balance = 0
+        self.closed = True
+        return "Account is closed and all funds are cleared"
+
 
 
 
