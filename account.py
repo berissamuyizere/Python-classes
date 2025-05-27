@@ -43,7 +43,7 @@ class Account:
     def request_loan(self, amount):
         if self.loan_status == "inactive":
             self.loan = amount
-            # self.loan_status = "pending" 
+         
             self.deposit(amount)  
             print("Loan request is being processed")
         elif self.loan_status == "pending":
@@ -55,9 +55,8 @@ class Account:
         if amount <= 0:
             print("Invalid repayment amount.")
             return
-
         if amount <= self.balance:
-            self.balance -= amount
+            self.withdrawals.append(amount)
             self.loan -= amount
             print(f"Successfully repaid ${amount}. Remaining loan balance: ${self.loan}")
         else:
@@ -103,9 +102,10 @@ class Account:
     def close_account (self):
         self.deposits.clear()
         self.withdrawals.clear()
-        # self.transactions.clear()
-        self.loan_balance = 0
+        self.balance = 0
+        self.loan = 0
         self.closed = True
+        self.loan_status = "inactive"
         return "Account is closed and all funds are cleared"
 
 
