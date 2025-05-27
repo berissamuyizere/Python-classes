@@ -8,6 +8,7 @@ class Account:
         self.loan = 0
         self.loan_status = "inactive"
         self.is_frozen = False
+        self.minimum_balance = 0
 
     def deposit(self, amount):
         if amount > 0:
@@ -36,7 +37,7 @@ class Account:
         if  amount <= self.get_balance():
             self.withdraw(amount)
             recipient.deposit(amount)
-            return f"you have withdrawn {amount} to {recipient.name}"
+            return f"you have transfered  {amount} to {recipient.name}"
       
     def request_loan(self, amount):
         if self.loan_status == "inactive":
@@ -70,14 +71,14 @@ class Account:
         new_balance = self.balance + interest
         return f"interest rate is {interest} and your new balance is {new_balance}"
 
-    def freez_account():
-        if not is_frozen:
+    def freez_account(self):
+        if not self.is_frozen:
             self.is_frozen = True
             return "account have been frozen"
         else:
             return "account already frozen"
 
-    def unfreez_account():
+    def unfreez_account(self):
         if self.is_frozen:
             self.is_frozen = False
             print(f"account {self.account_number} has been frozen")
@@ -92,8 +93,15 @@ class Account:
             print(f"Withdrawal {i+1}: {withdrawal}")
 
     def set_minmum_balance(self, amount):
+        if amount >=0:
+            self.minimum_balance = amount
+        else:
+            return "balance cannot be negative"    
+            
+
+     def clear_account(self):
         
 
-          
+
 
         
