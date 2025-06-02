@@ -13,7 +13,7 @@ class Account:
         self.name = name
         self.__balance = 0
         self.__account_number = account_number
-        self.__transactions = []
+        self.transactions = []
         self.loan = 0
         self.loan_status = "inactive"
         self.is_frozen = False
@@ -22,9 +22,11 @@ class Account:
         self.deposit_count = 0
 
     def deposit(self, amount):
+        if self.is_frozen:
+            return "Withdrawal denied: Account is frozen"
         if amount > 0:
             self.__balance += amount
-            self.__transactions.append(Transaction(amount, "Deposit", "deposit"))
+            self.transactions.append(Transaction(amount, "Deposit", "deposit"))
             self.deposit_count += 1
             return f"Confirmed, you have deposited {amount}. New balance is {self.__balance}"
         return "Deposit amount must be greater than 0"
@@ -39,8 +41,8 @@ class Account:
         if self.__balance - total_deduction < self.minimum_balance:
             return f"Withdrawal would breach minimum balance of {self.minimum_balance}"
         self.__balance -= total_deduction
-        self.__transactions.append(Transaction(amount, "Cash withdrawal", "withdrawal"))
-        self.__transactions.append(Transaction(fee, "Withdrawal fee", "fee"))
+        self.transactions.append(Transaction(amount, "Cash withdrawal", "withdrawal"))
+        self.transactions.append(Transaction(fee, "Withdrawal fee", "fee"))
         return f"Withdrawn {amount} with fee {fee}. New balance is {self.__balance}"
 
     def get_balance(self):
@@ -50,7 +52,7 @@ class Account:
         return self.__account_number
 
     def get_transactions(self):
-        return self.__transactions
+        return self.transactions
 
     def transfer_funds(self, recipient, amount):
         transfer_fee = 10 
@@ -61,8 +63,8 @@ class Account:
             return "Transfer failed due to insufficient funds (including transfer fee)"
         self.__balance -= total
         recipient.deposit(amount)
-        self.__transactions.append(Transaction(amount, f"Transfer to {recipient.name}", "transfer"))
-        self.__transactions.append(Transaction(transfer_fee, "Transfer fee", "fee"))
+        self.transactions.append(Transaction(amount, f"Transfer to {recipient.name}", "transfer"))
+        self.transactions.append(Transaction(transfer_fee, "Transfer fee", "fee"))
         return f"Transferred {amount} to {recipient.name}. Fee {transfer_fee}. New balance is {self.__balance}"
 
     def request_loan(self, amount):
@@ -102,7 +104,7 @@ class Account:
             return "No interest earned on zero or negative balance"
         interest = self.__balance * 0.05
         self.__balance += interest
-        self.__transactions.append(Transaction(interest, "Interest Applied", "interest"))
+        self.transactions.append(Transaction(interest, "Interest Applied", "interest"))
         return f"Interest of {interest} applied. New balance is {self.__balance}"
 
     def freeze_account(self):
@@ -119,7 +121,7 @@ class Account:
 
     def account_statement(self):
         print(f"Statement for account: {self.__account_number} - {self.name}")
-        for i, transaction in enumerate(self.__transactions):
+        for i, transaction in enumerate(self.transactions):
             print(f"Transaction {i+1} : {transaction}")
 
     def set_minimum_balance(self, amount):
@@ -129,10 +131,13 @@ class Account:
         return "Minimum balance cannot be negative"
 
     def close_account(self):
-        self.__transactions.clear()
+        self.transactions.clear()
         self.__balance = 0
         self.loan = 0
         self.loan_status = "inactive"
         self.closed = True
         return "Account closed and all funds cleared"
+    
+
+
     
