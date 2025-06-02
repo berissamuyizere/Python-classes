@@ -83,7 +83,7 @@ class Account:
             return "Invalid repayment amount"
         if self.__balance < amount:
             return "Insufficient funds for loan repayment"
-
+            
         repay_amount = min(amount, self.loan)
         self.__balance -= repay_amount
         self.loan -= repay_amount
@@ -136,4 +136,4 @@ class Account:
         self.closed = True
         return "Account closed and all funds cleared"
 
-        
+
