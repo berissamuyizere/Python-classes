@@ -119,8 +119,8 @@ class Account:
 
     def account_statement(self):
         print(f"Statement for account: {self.__account_number} - {self.name}")
-        for transaction in self.__transactions:
-            print(transaction)
+        for i, transaction in enumerate(self.__transactions):
+            print(f"Transaction {i+1} : {transaction}")
 
     def set_minimum_balance(self, amount):
         if amount >= 0:
@@ -135,5 +135,4 @@ class Account:
         self.loan_status = "inactive"
         self.closed = True
         return "Account closed and all funds cleared"
-
-
+    
